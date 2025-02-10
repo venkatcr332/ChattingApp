@@ -1,11 +1,20 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
   standalone: false,
-  styleUrl: './app.component.css'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'Brms';
+  username: string | null = null;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.user$.subscribe((userData) => {
+      this.username = userData.username;
+    });
+  }
 }

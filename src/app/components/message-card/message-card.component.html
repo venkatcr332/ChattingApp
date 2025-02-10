@@ -1,0 +1,16 @@
+<div class="contact" (click)="selectUser()">
+  <app-dp [photo]="user.photo"></app-dp>
+  <div class="contact-info">
+    <h4 class="text username"> {{ user.name.length > 10 ? (user.name | slice:0:10) + '...' : user.name }}
+    </h4>
+    <p class="text">&#64;{{ user.username }}</p>
+    <p class="text">Lorem ipsum is simply dummy text ...</p>
+  </div>
+  <div class="space"></div>
+  <div class="right">
+    <span class="time">02 Apr</span>
+    <div *ngIf="true" class="notifications">
+      <p class="number">21</p>
+    </div>
+  </div>
+</div>

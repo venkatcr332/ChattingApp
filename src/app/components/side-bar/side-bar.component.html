@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="search-bar-wrapper">
+    <app-search-bar (searchEvent)="onSearch($event)"></app-search-bar>
+  </div>
+
+  <div class="inner-container">
+    <div *ngFor="let user of filteredUsers">
+      <app-message-card [user]="user" (userSelected)="onUserSelected($event)"></app-message-card>
+    </div>
+  </div>
+</div>

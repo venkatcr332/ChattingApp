@@ -1,0 +1,20 @@
+.username {
+  font-weight: bolder;
+  font-size: 24px;
+}
+
+.text {
+  margin: 2px;
+}
+
+.container {
+  background-color: rgb(220, 220, 220);
+  display: flex;
+  padding: 20px;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: left;
+  align-items: center;
+  border-radius: 12px;
+  margin: 0px 20px 5px 20px;
+}

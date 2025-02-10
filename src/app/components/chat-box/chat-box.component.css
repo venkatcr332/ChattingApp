@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chatBox {
+  flex-grow: 1;
+  height: 50vh;
+  overflow-y: scroll;
+  background-color: transparent;
+  padding: 20px;
+  margin: 0px 20px 5px 20px;
+}
+
+.chatBox::-webkit-scrollbar {
+  display: none;
+}

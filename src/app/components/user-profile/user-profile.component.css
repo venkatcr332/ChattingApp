@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  align-items: center;
+  justify-content: left;
+  background-color: transparent;
+  width: auto;
+  padding: 10px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.userdetails {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.username {
+  font-size: 14px;
+  color: rgb(143, 143, 143);
+}
+
+.btn {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
