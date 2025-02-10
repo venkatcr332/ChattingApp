@@ -1,12 +1,9 @@
 <div class="container">
   <app-header [selectedUser]="selectedUser"></app-header> <!-- Pass selected user to header -->
   <div class="chatBox">
-    <app-sent-message></app-sent-message>
-    <app-receive-message></app-receive-message>
-    <app-sent-message></app-sent-message>
-    <app-receive-message></app-receive-message>
-    <app-sent-message></app-sent-message>
-    <app-receive-message></app-receive-message>
-    <app-sent-message></app-sent-message>
+    <ng-container *ngFor="let msg of messages">
+      <app-sent-message *ngIf="msg.sender === currentUser" [message]="msg"></app-sent-message>
+      <app-receive-message *ngIf="msg.sender !== currentUser" [message]="msg"></app-receive-message>
+    </ng-container>
   </div>
 </div>

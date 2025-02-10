@@ -1,4 +1,4 @@
 <div class="container">
-  <p class="message">Hello, I am Good</p>
-  <p class="time">02:23</p>
+  <p class="message">{{ message.message }}</p>
+  <p class="time">{{ message.timestamp | date:'shortTime' }}</p>
 </div>

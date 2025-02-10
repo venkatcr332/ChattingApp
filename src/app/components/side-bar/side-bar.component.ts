@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { UserService } from '../../services/users.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -13,7 +14,7 @@ export class SideBarComponent implements OnInit {
   filteredUsers: any[] = []; // Stores filtered users
   @Output() userSelected = new EventEmitter<any>(); // Emit user selection
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   ngOnInit() {
     this.http.get<any[]>('http://localhost:3000/users').subscribe((data) => {
@@ -31,6 +32,7 @@ export class SideBarComponent implements OnInit {
   }
 
   onUserSelected(user: any) {
-    this.userSelected.emit(user); // Emit selected user to home
+    this.userSelected.emit(user); // Emit selected user to parent component
+    this.userService.setSelectedUser(user.username); // Set selected user in UserService
   }
 }

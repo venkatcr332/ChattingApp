@@ -3,10 +3,18 @@
     <app-user-profile></app-user-profile>
     <app-side-bar (userSelected)="onUserSelected($event)"></app-side-bar>
   </div>
-  <div class="container-right">
+  <div *ngIf="selectedUser; else StartTemplate" class="container-right">
     <div class="chatBox">
       <app-chat-box [selectedUser]="selectedUser"></app-chat-box>
     </div>
     <app-message></app-message>
   </div>
 </div>
+
+
+<ng-template #StartTemplate>
+  <div class="start-container">
+    <img src="assets/svg/chat.svg" />
+    <p>Select a Chat to Start a Conversation</p>
+  </div>
+</ng-template>

@@ -1,3 +1,4 @@
+import { UserService } from './../../services/users.service';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
@@ -9,10 +10,14 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent {
-  user = { username: '', password: '' };
+  user = { username: 'venkat123', password: '' };
   errorMessage = '';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   onSubmit() {
     this.http.get<any[]>('http://localhost:3000/users').subscribe(
@@ -25,6 +30,7 @@ export class LoginPageComponent {
 
         if (foundUser) {
           console.log('Login Successful!', foundUser);
+          this.userService.setCurrentUser(foundUser.username);
           this.authService.setUser({
             username: foundUser.username,
             name: foundUser.name,

@@ -3,82 +3,61 @@
     {
       "name": "Risha",
       "username": "risha123",
-      "password": "123456",
+      "password": "",
       "photo": "assets/users/user-1.jpg"
     },
     {
       "name": "Chetana",
       "username": "chetana123",
-      "password": "123456",
+      "password": "",
       "photo": "assets/users/user-2.jpg"
     },
     {
       "name": "Sriram",
       "username": "sriram123",
-      "password": "123456",
+      "password": "",
       "photo": "assets/users/user-3.jpg"
     },
     {
       "name": "Venkat",
       "username": "venkat123",
-      "password": "123456",
+      "password": "",
       "photo": "assets/users/user-4.jpg"
     },
     {
       "name": "Nandana",
       "username": "nandana123",
-      "password": "123456",
+      "password": "",
       "photo": "assets/users/user-5.jpg"
     },
     {
       "name": "Charan",
       "username": "charan123",
-      "password": "123456",
+      "password": "",
       "photo": "assets/users/user-6.jpg"
     }
   ],
   "messages": [
     {
-      "id": 1,
-      "sender": "risha123",
-      "receiver": "chetana123",
-      "message": "Hey Chetana! How are you?",
-      "timestamp": "2025-02-07T12:00:00Z"
-    },
-    {
-      "id": 2,
-      "sender": "chetana123",
-      "receiver": "risha123",
-      "message": "Hey Risha! I'm good, how about you?",
-      "timestamp": "2025-02-07T12:01:00Z"
-    },
-    {
-      "id": 3,
-      "sender": "sriram123",
-      "receiver": "venkat123",
-      "message": "Venkat, are we still on for the meeting later?",
-      "timestamp": "2025-02-07T12:05:30Z"
-    },
-    {
-      "id": 4,
       "sender": "venkat123",
-      "receiver": "sriram123",
-      "message": "Yes, let's meet at 3 PM.",
-      "timestamp": "2025-02-07T12:06:15Z"
+      "receiver": "chetana123",
+      "message": "hi",
+      "timestamp": "2025-02-10T11:53:17.243Z",
+      "id": 1
     },
     {
-      "id": 5,
-      "sender": "nandana123",
-      "receiver": "charan123",
-      "message": "Charan, did you check the new updates?",
-      "timestamp": "2025-02-07T12:10:00Z"
+      "sender": "venkat123",
+      "receiver": "risha123",
+      "message": "helloi",
+      "timestamp": "2025-02-10T11:53:27.943Z",
+      "id": 2
     },
     {
-      "id": 6,
-      "sender": "charan123",
-      "receiver": "nandana123",
-      "message": "Yes, they look great!",
-      "timestamp": "2025-02-07T12:11:45Z"
+      "sender": "risha123",
+      "receiver": "venkat123",
+      "message": "okay",
+      "timestamp": "2025-02-10T11:53:50.753Z",
+      "id": 3
     }
   ]
 }

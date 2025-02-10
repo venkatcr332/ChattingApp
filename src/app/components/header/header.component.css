@@ -8,7 +8,7 @@
 }
 
 .container {
-  background-color: rgb(220, 220, 220);
+  background-color: rgb(255, 255, 255);
   display: flex;
   padding: 20px;
   flex-direction: row;

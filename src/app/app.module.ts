@@ -16,6 +16,10 @@ import { ReceiveMessageComponent } from './components/receive-message/receive-me
 import { HomeComponent } from './components/home/home.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,14 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     HomeComponent,
     LoginPageComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase), // Initialize Firebase
+    AngularFireDatabaseModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

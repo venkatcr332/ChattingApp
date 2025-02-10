@@ -23,6 +23,18 @@
   flex-grow: 1;
 }
 
+.start-container {
+  background-color: white;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 22px;
+  font-weight: bolder;
+}
+
 @media screen and (max-width: 720px) {
   .container-right {
     display: none;
