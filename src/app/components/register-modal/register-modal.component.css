@@ -1,0 +1,11 @@
+.container-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 25px !important;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  column-gap: 12px;
+}

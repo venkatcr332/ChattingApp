@@ -1,4 +1,4 @@
-.container {
+.cont {
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -19,4 +19,10 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+
+.link:hover {
+  cursor: default;
+  font-size: 18px;
 }

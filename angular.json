@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Brms": {
+    "chatapp": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -41,10 +41,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/brms",
+            "outputPath": "dist/chatapp",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -53,7 +53,10 @@
               },
               "src/assets"
             ],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -84,10 +87,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Brms:build:production"
+              "buildTarget": "chatapp:build:production"
             },
             "development": {
-              "buildTarget": "Brms:build:development"
+              "buildTarget": "chatapp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +101,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing",
+              "@angular/localize/init"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {

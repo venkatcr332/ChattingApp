@@ -15,11 +15,14 @@ import { SentMessageComponent } from './components/sent-message/sent-message.com
 import { ReceiveMessageComponent } from './components/receive-message/receive-message.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterModalComponent } from './components/register-modal/register-modal.component';
 import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 @NgModule({
   declarations: [
@@ -36,16 +39,21 @@ import { environment } from '../environments/environment';
     ReceiveMessageComponent,
     HomeComponent,
     LoginPageComponent,
+    RegisterModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase), // Initialize Firebase
-    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    NgbModule,
   ],
-  providers: [],
+  providers: [
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideDatabase(() => getDatabase()),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -48,7 +48,7 @@
     {
       "sender": "venkat123",
       "receiver": "risha123",
-      "message": "helloi",
+      "message": "Hello",
       "timestamp": "2025-02-10T11:53:27.943Z",
       "id": 2
     },
@@ -58,6 +58,41 @@
       "message": "okay",
       "timestamp": "2025-02-10T11:53:50.753Z",
       "id": 3
+    },
+    {
+      "sender": "venkat123",
+      "receiver": "chetana123",
+      "message": "hello",
+      "timestamp": "2025-02-11T07:17:29.107Z",
+      "id": 4
+    },
+    {
+      "sender": "venkat123",
+      "receiver": "sriram123",
+      "message": "Hello",
+      "timestamp": "2025-02-11T09:03:08.875Z",
+      "id": 5
+    },
+    {
+      "sender": "venkat123",
+      "receiver": "venkat123",
+      "message": "Here u cant send a message",
+      "timestamp": "2025-02-11T09:04:56.153Z",
+      "id": 6
+    },
+    {
+      "sender": "venkat123",
+      "receiver": "venkat123",
+      "message": "It will be like self sent message",
+      "timestamp": "2025-02-11T09:05:10.142Z",
+      "id": 7
+    },
+    {
+      "sender": "venkat123",
+      "receiver": "venkat123",
+      "message": "So u can use this as a diary",
+      "timestamp": "2025-02-11T09:05:28.102Z",
+      "id": 8
     }
   ]
 }

@@ -26,11 +26,24 @@ export class ChatService {
       );
   }
 
-  // getMessages(sender: string, receiver: string): Observable<any> {
-  //   return this.http.get<any[]>(
-  //     `${this.apiUrl}?sender=${sender}&receiver=${receiver}`
-  //   );
-  // }
+  getLatestMessage(currentUser: string, otherUser: string): Observable<any> {
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(
+        (messages) =>
+          messages
+            .filter(
+              (msg) =>
+                (msg.sender === currentUser && msg.receiver === otherUser) ||
+                (msg.sender === otherUser && msg.receiver === currentUser)
+            )
+            .sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime()
+            )[0] // Sort by latest first // Get the latest message
+      )
+    );
+  }
 
   sendMessage(
     sender: string,

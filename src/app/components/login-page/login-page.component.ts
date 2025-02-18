@@ -1,7 +1,8 @@
-import { UserService } from './../../services/users.service';
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { Component, inject } from '@angular/core';
+import { RegisterModalComponent } from '../register-modal/register-modal.component';
+import { AuthenticationService } from '../../services/authentication.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login-page',
@@ -10,39 +11,69 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent {
-  user = { username: 'venkat123', password: '' };
-  errorMessage = '';
+  email: string = '';
+  password: string = '';
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-    private userService: UserService
+    private authentication: AuthenticationService,
+    private modalService: NgbModal
   ) {}
 
-  onSubmit() {
-    this.http.get<any[]>('http://localhost:3000/users').subscribe(
-      (users) => {
-        const foundUser = users.find(
-          (u) =>
-            u.username === this.user.username &&
-            u.password === this.user.password
-        );
+  db: AngularFireDatabase = inject(AngularFireDatabase);
 
-        if (foundUser) {
-          console.log('Login Successful!', foundUser);
-          this.userService.setCurrentUser(foundUser.username);
-          this.authService.setUser({
-            username: foundUser.username,
-            name: foundUser.name,
-            photo: foundUser.photo,
-          });
-        } else {
-          console.log('Login Not Successful!');
+  ngOnInit(): void {}
+
+  login() {
+    if (this.email == '') {
+      alert('Please enter email');
+      return;
+    }
+    if (this.password == '') {
+      alert('Please enter password');
+      return;
+    }
+
+    this.authentication.login(this.email, this.password);
+    this.email = '';
+    this.password = '';
+  }
+
+  openRegisterModal() {
+    const modalRef = this.modalService.open(RegisterModalComponent);
+    modalRef.result
+      .then((result) => {
+        if (result) {
+          console.log('Registered User:', result);
         }
-      },
-      (error) => {
-        console.error('Error fetching users', error);
-      }
-    );
+      })
+      .catch(() => {});
   }
 }
+
+//   onSubmit() {
+//     this.http.get<any[]>('http://localhost:3000/users').subscribe(
+//       (users) => {
+//         const foundUser = users.find(
+//           (u) =>
+//             u.username === this.user.username &&
+//             u.password === this.user.password
+//         );
+
+//         if (foundUser) {
+//           console.log('Login Successful!', foundUser);
+//           this.userService.setCurrentUser(foundUser.username);
+//           this.authService.setUser({
+//             username: foundUser.username,
+//             name: foundUser.name,
+//             photo: foundUser.photo,
+//           });
+//         } else {
+//           console.log('Login Not Successful!');
+//         }
+//       },
+//       (error) => {
+//         console.error('Error fetching users', error);
+//       }
+//     );
+//   }
+// }

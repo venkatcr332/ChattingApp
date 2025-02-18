@@ -1,6 +1,7 @@
-<div class="container">
+<div class="cont">
   <button class="btn"><img src="assets/svg/attachment.svg" /></button>
-  <input type="text" [(ngModel)]="newMessage" class="typemessage" placeholder="Type a message . . ." />
+  <input type="text" [(ngModel)]="newMessage" class="typemessage" placeholder="Type a message . . ."
+    (keydown.enter)="sendMessage()" />
   <button class="btn"><img src="assets/svg/smiley.svg" /></button>
   <button class="send-btn" (click)="sendMessage()"><img src="assets/svg/send.svg" /></button>
 </div>

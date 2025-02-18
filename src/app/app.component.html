@@ -1,8 +1,9 @@
-<div *ngIf="!username;else hometemplate">
-  <p>Welcome User</p>
+<!-- <div>
   <app-login-page></app-login-page>
-</div>
+</div> -->
 
-<ng-template #hometemplate>
-  <app-home></app-home>
-</ng-template>
+<!-- <ng-template #hometemplate>
+  <app-home class="home"></app-home>
+</ng-template> -->
+
+<router-outlet></router-outlet>

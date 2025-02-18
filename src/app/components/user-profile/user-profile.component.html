@@ -1,11 +1,16 @@
-<div class="container">
+<div class="cont">
   <app-dp [photo]="photo"></app-dp>
   <div class="userdetails">
     <div class="name">{{ name }}</div>
-    <div class="username">&#64;{{ username }}</div>
+    <div class="username">
+      &#64;{{ (username || '').length > 10 ? (username | slice: 0: 10) + '...' : username || '' }}
+    </div>
   </div>
   <div class="spacer"></div>
   <button class="btn">
     <img src="assets/svg/notification.svg" />
+  </button>
+  <button class="btn" (click)="logout()">
+    <img src="assets/svg/logout.svg" />
   </button>
 </div>

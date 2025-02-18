@@ -1,11 +1,12 @@
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: 'AIzaSyCeJixCKiaX0QKPftJ8BFDlUkxrAfFAUos',
-    authDomain: 'chattingapp-3e6f2.firebaseapp.com',
-    projectId: 'chattingapp-3e6f2',
-    storageBucket: 'chattingapp-3e6f2.firebasestorage.app',
-    messagingSenderId: '755508361752',
-    appId: '1:755508361752:web:710ecffa6ab4c98ef6a16d',
+  firebaseConfig: {
+    apiKey: 'AIzaSyAgRrxXPQESUCLSKb0AHnTOa8CoThW2Qwg',
+    authDomain: 'chattingapp-598c3.firebaseapp.com',
+    databaseURL: 'https://chattingapp-598c3-default-rtdb.firebaseio.com',
+    projectId: 'chattingapp-598c3',
+    storageBucket: 'chattingapp-598c3.firebasestorage.app',
+    messagingSenderId: '710654607847',
+    appId: '1:710654607847:web:1f862ddda635e2f7a97d42',
   },
 };

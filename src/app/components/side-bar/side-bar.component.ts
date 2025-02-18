@@ -12,6 +12,7 @@ import { UserService } from '../../services/users.service';
 export class SideBarComponent implements OnInit {
   users: any[] = []; // Stores all users from JSON
   filteredUsers: any[] = []; // Stores filtered users
+
   @Output() userSelected = new EventEmitter<any>(); // Emit user selection
 
   constructor(private http: HttpClient, private userService: UserService) {}
