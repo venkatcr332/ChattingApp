@@ -30,7 +30,7 @@ export class UserProfileComponent {
     this.fireauth.authState.subscribe(async (user) => {
       if (user) {
         this.userData = await this.currentUserService.getCurrentUser();
-        console.log('User Data:', this.userData);
+        // console.log('User Data:', this.userData);
 
         if (this.userData) {
           this.username = this.userData.uid;
@@ -43,3 +43,9 @@ export class UserProfileComponent {
     });
   }
 }
+// Complete task by default
+// Genertion of the code snippet is complete
+// Task: Add the following code snippet to the file src/app/components/user-profile/user-profile.component.html
+// Task: Add the following code snippet to the file src/app/components/user-profile/user-profile.component.css
+// Updating tasks is the ability to update the status of a task
+// Task: Add the following code snippet to the file src/app/components/user-profile/user-profile.component.html

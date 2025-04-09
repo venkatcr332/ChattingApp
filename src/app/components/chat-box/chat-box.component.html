@@ -1,9 +1,22 @@
-<div class="cont">
-  <app-header [selectedUser]="selectedUser"></app-header> <!-- Pass selected user to header -->
-  <div class="chatBox">
+<!-- <div class="cont">
+  <app-header [selectedUser]="selectedUser"></app-header>
+  <div class="chatBox" *ngIf="SenderUid">
     <ng-container *ngFor="let msg of messages">
-      <app-sent-message *ngIf="msg.sender === currentUser" [message]="msg"></app-sent-message>
-      <app-receive-message *ngIf="msg.sender !== currentUser" [message]="msg"></app-receive-message>
+      <app-sent-message *ngIf="msg.sender === SenderUid" [message]="msg"></app-sent-message>
+      <app-receive-message *ngIf="msg.sender !== SenderUid" [message]="msg"></app-receive-message>
     </ng-container>
+  </div>
+</div> -->
+
+<div class="cont">
+  <app-header [selectedUser]="selectedUser"></app-header>
+
+  <div class="chatBox" *ngIf="SenderUid" #scrollContainer>
+    <div class="messages">
+      <ng-container *ngFor="let msg of messages">
+        <app-sent-message *ngIf="msg.sender === SenderUid" [message]="msg"></app-sent-message>
+        <app-receive-message *ngIf="msg.sender !== SenderUid" [message]="msg"></app-receive-message>
+      </ng-container>
+    </div>
   </div>
 </div>

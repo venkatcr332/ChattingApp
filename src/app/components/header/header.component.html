@@ -1,5 +1,5 @@
 <div class="cont" *ngIf="selectedUser">
-  <app-dp [photo]="selectedUser.photo"></app-dp>
+  <app-dp [photo]="'assets/users/' + selectedUser.photo"></app-dp>
   <h4 class="text username">{{ selectedUser.name.length > 10 ? (selectedUser.name | slice:0:10) + '...' :
     selectedUser.name }}</h4>
 </div>

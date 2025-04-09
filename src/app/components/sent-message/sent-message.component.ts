@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ChatsService } from '../../services/chats.service';
 
 @Component({
   selector: 'app-sent-message',

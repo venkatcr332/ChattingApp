@@ -1,4 +1,3 @@
-import { CurrentUserService } from './current-user.service';
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Database, ref, set } from '@angular/fire/database';
@@ -8,11 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(
-    private fireauth: AngularFireAuth,
-    private router: Router,
-    private currentUserService: CurrentUserService
-  ) {}
+  constructor(private fireauth: AngularFireAuth, private router: Router) {}
   private db = inject(Database);
 
   //login method
@@ -24,6 +19,7 @@ export class AuthenticationService {
       },
       (err) => {
         alert('something went wrong');
+        console.error(err);
         this.router.navigate(['/login']);
       }
     );
@@ -66,9 +62,13 @@ export class AuthenticationService {
     this.fireauth.signOut().then(
       () => {
         localStorage.removeItem('token');
+        localStorage.clear();
+        sessionStorage.clear();
         this.router.navigate(['/login']);
+        console.log('Logged out successfully');
       },
       (err) => {
+        console.log(err);
         alert('something went wrong');
       }
     );

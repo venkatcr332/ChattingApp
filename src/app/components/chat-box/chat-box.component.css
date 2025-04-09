@@ -8,12 +8,22 @@
 .chatBox {
   flex-grow: 1;
   height: 50vh;
-  overflow-y: scroll;
   background-color: transparent;
   padding: 20px;
   margin: 0px 20px 5px 20px;
+  max-height: 80vh;
+  /* adjust as needed */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  /* THIS makes messages render bottom-up */
 }
 
 .chatBox::-webkit-scrollbar {
   display: none;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
 }

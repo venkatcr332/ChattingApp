@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { UserService } from '../../services/users.service';
+import { Database, ref, get } from '@angular/fire/database';
+import { debounceTime, Subject } from 'rxjs';
+import { ChatsService } from '../../services/chats.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -12,28 +13,45 @@ import { UserService } from '../../services/users.service';
 export class SideBarComponent implements OnInit {
   users: any[] = []; // Stores all users from JSON
   filteredUsers: any[] = []; // Stores filtered users
+  private searchSubject = new Subject<string>();
 
   @Output() userSelected = new EventEmitter<any>(); // Emit user selection
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private db: Database, private chatsService: ChatsService) {}
 
-  ngOnInit() {
-    this.http.get<any[]>('http://localhost:3000/users').subscribe((data) => {
-      this.users = data;
-      this.filteredUsers = data; // Initially, show all users
+  async ngOnInit() {
+    const userRef = ref(this.db, 'user/');
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      const usersObject = snapshot.val();
+      this.users = Object.values(usersObject); // Convert object to array
+      this.filteredUsers = [...this.users]; // Copy array for filtering
+      console.log(this.users);
+    } else {
+      console.log('User data not found');
+    }
+
+    this.searchSubject.pipe(debounceTime(300)).subscribe((term) => {
+      this.filteredUsers = this.users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(term.toLowerCase()) ||
+          user.uid.toLowerCase().includes(term.toLowerCase())
+      );
     });
   }
 
   onSearch(term: string) {
-    this.filteredUsers = this.users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(term.toLowerCase()) ||
-        user.username.toLowerCase().includes(term.toLowerCase())
-    );
+    this.searchSubject.next(term);
   }
 
   onUserSelected(user: any) {
-    this.userSelected.emit(user); // Emit selected user to parent component
-    this.userService.setSelectedUser(user.username); // Set selected user in UserService
+    console.log('[SideBarComponent] User selected:', user);
+    if (!user?.uid) {
+      console.warn('[SideBarComponent] No UID found in selected user');
+      return;
+    }
+
+    this.chatsService.setReceiverUid(user.uid);
+    this.userSelected.emit(user);
   }
 }

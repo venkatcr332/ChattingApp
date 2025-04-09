@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CurrentUserService } from '../../services/current-user.service';
 
 @Component({
   selector: 'app-header',

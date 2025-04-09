@@ -6,8 +6,8 @@ import { Database, ref, get } from '@angular/fire/database';
   providedIn: 'root',
 })
 export class CurrentUserService {
-  user: any;
   constructor(private fireauth: AngularFireAuth, private db: Database) {}
+
   async getCurrentUser() {
     const user = await this.fireauth.currentUser;
     if (user) {

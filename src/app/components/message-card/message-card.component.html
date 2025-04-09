@@ -1,14 +1,14 @@
 <div class="contact" (click)="selectUser()">
-  <app-dp [photo]="user.photo"></app-dp>
+  <app-dp [photo]="'assets/users/' + user.photo"></app-dp>
   <div class="contact-info">
     <h4 class="text username"> {{ user.name.length > 10 ? (user.name | slice:0:10) + '...' : user.name }}
     </h4>
-    <p class="text disabled">&#64;{{ user.username }}</p>
+    <p class="text disabled">&#64;{{ user.uid.length > 20 ? (user.uid | slice:0:20) + '...' : user.uid }}</p>
     <p class="text disabled">{{latestMessage}}</p>
   </div>
   <div class="space"></div>
   <div class="right">
-    <span class="time disabled">02 Apr</span>
+    <span class="time disabled">{{latestTime}}</span>
     <div *ngIf="false" class="notifications">
       <p class="number">21</p>
     </div>
