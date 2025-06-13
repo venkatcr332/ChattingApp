@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ChatsService } from '../../services/chats.service';
 import { Subscription } from 'rxjs';
@@ -29,14 +37,30 @@ export class MessageCardComponent implements OnInit {
 
   ngOnInit() {
     this.fireauth.authState.subscribe((user) => {
-      if (user && this.user?.uid) {
+      if (user) {
         this.currentUser = user.uid;
-        this.subscribeToLatestMessage();
+        // Initial subscription can happen here if user is already present
+        if (this.user?.uid) {
+          this.subscribeToLatestMessage();
+        }
       }
     });
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['user'] && this.user?.uid && this.currentUser) {
+      this.latestMessage = 'Load...';
+      this.latestTime = '';
+      this.subscribeToLatestMessage();
+    }
+  }
+
   subscribeToLatestMessage() {
     if (!this.currentUser || !this.user?.uid) return;
+
+    if (this.latestMessageSub) {
+      this.latestMessageSub.unsubscribe();
+    }
 
     const stream$ = this.chatsService.listenToLatestMessage(
       this.currentUser,
@@ -49,6 +73,7 @@ export class MessageCardComponent implements OnInit {
       }
     });
   }
+
   formatTime(iso: string): string {
     const date = new Date(iso);
     const now = new Date();

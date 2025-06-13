@@ -25,7 +25,8 @@
 }
 
 .start-container {
-  background-color: white;
+  background-color: var(--bg-header);
+  color: var(--text-color);
   align-items: center;
   text-align: center;
   justify-content: center;

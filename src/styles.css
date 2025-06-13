@@ -6,9 +6,42 @@
 body,
 html {
   margin: 0 auto;
-  background-color: rgb(237, 237, 237);
+  height: 100%;
+  background-color: var(--bg-color);
 }
 
 button:active {
   transform: translateX(2px);
+}
+
+/* body,
+.main-container,
+.cont {
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+} */
+
+/* light mode */
+:root {
+  --bg-header: rgb(255, 255, 255);
+  --bg-color: rgb(237, 237, 237);
+  --text-color: #000000;
+  --shadow: 0px 0px 24px rgba(53, 53, 53, 0.493);
+  --bg-search: rgb(236, 236, 236);
+  --icon-color: #000000;
+  --msg--received: #ffffff;
+}
+
+/* dark mode */
+.dark-theme {
+  --bg-header: rgb(50, 50, 51);
+  --bg-color: rgb(30, 30, 30);
+  --text-color: #ffffff;
+  --shadow: 0px 0px 24px rgba(116, 116, 116, 0.493);
+  --bg-search: rgb(77, 77, 78);
+  --icon-color: #ffffff;
+  --msg--received: #4d4d4e;
+
 }

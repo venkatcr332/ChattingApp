@@ -1,7 +1,15 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Database, ref, get } from '@angular/fire/database';
-import { debounceTime, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ChatsService } from '../../services/chats.service';
+import { CurrentUserService } from '../../services/current-user.service';
+
+interface User {
+  email: string;
+  name: string;
+  photo: string;
+  uid: string;
+}
 
 @Component({
   selector: 'app-side-bar',
@@ -11,47 +19,61 @@ import { ChatsService } from '../../services/chats.service';
   styleUrl: './side-bar.component.css',
 })
 export class SideBarComponent implements OnInit {
-  users: any[] = []; // Stores all users from JSON
-  filteredUsers: any[] = []; // Stores filtered users
+  users: User[] = [];
+  interactedUsers: User[] = [];
+  filteredUsers: User[] = [];
   private searchSubject = new Subject<string>();
 
-  @Output() userSelected = new EventEmitter<any>(); // Emit user selection
+  @Output() userSelected = new EventEmitter<User>();
 
-  constructor(private db: Database, private chatsService: ChatsService) {}
+  constructor(
+    private db: Database,
+    private currentUserService: CurrentUserService,
+    private chatsService: ChatsService
+  ) {}
 
   async ngOnInit() {
-    const userRef = ref(this.db, 'user/');
-    const snapshot = await get(userRef);
-    if (snapshot.exists()) {
-      const usersObject = snapshot.val();
-      this.users = Object.values(usersObject); // Convert object to array
-      this.filteredUsers = [...this.users]; // Copy array for filtering
-      console.log(this.users);
-    } else {
-      console.log('User data not found');
-    }
+    try {
+      const userRef = ref(this.db, 'user/');
+      const snapshot = await get(userRef);
 
-    this.searchSubject.pipe(debounceTime(300)).subscribe((term) => {
-      this.filteredUsers = this.users.filter(
-        (user) =>
-          user.name.toLowerCase().includes(term.toLowerCase()) ||
-          user.uid.toLowerCase().includes(term.toLowerCase())
+      if (!snapshot.exists()) {
+        console.warn('No users found in database.');
+        return;
+      }
+
+      const usersObject = snapshot.val();
+      const allUsers: User[] = Object.values(usersObject);
+
+      const currentUser = await this.currentUserService.getCurrentUser();
+      if (!currentUser?.uid) {
+        console.warn('Current user not found.');
+        return;
+      }
+
+      const interactedUids = await this.chatsService.getInteractedUserUids(
+        currentUser.uid
       );
-    });
+
+      this.interactedUsers = allUsers.filter(
+        (user) => interactedUids.has(user.uid) && user.uid !== currentUser.uid
+      );
+
+      this.filteredUsers = [...this.interactedUsers];
+    } catch (err) {
+      console.error('Error initializing sidebar:', err);
+    }
   }
 
   onSearch(term: string) {
     this.searchSubject.next(term);
   }
 
-  onUserSelected(user: any) {
-    console.log('[SideBarComponent] User selected:', user);
+  onUserSelected(user: User) {
     if (!user?.uid) {
-      console.warn('[SideBarComponent] No UID found in selected user');
+      console.warn('Selected user has no UID.');
       return;
     }
-
-    this.chatsService.setReceiverUid(user.uid);
     this.userSelected.emit(user);
   }
 }

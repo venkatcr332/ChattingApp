@@ -1,6 +1,7 @@
 .username {
   font-weight: bolder;
   font-size: 24px;
+  color: var(--text-color);
 }
 
 .text {
@@ -8,7 +9,7 @@
 }
 
 .cont {
-  background-color: rgb(255, 255, 255);
+  background-color: var(--bg-header);
   display: flex;
   padding: 20px;
   flex-direction: row;

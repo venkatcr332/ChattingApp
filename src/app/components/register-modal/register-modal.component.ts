@@ -13,6 +13,7 @@ export class RegisterModalComponent {
   photo: string = '';
   email: string = '';
   password: string = '';
+  showPassword: boolean = false;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -20,7 +21,9 @@ export class RegisterModalComponent {
   ) {}
 
   ngOnInit(): void {}
-
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   register() {
     if (this.email == '') {
       alert('Please enter email');

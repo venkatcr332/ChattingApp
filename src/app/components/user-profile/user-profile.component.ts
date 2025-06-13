@@ -2,6 +2,7 @@ import { CurrentUserService } from './../../services/current-user.service';
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthenticationService } from '../../services/authentication.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,11 +17,21 @@ export class UserProfileComponent {
   photo: string | null = null;
   userData: any;
 
+  isDarkMode: boolean;
+
   constructor(
     private currentUserService: CurrentUserService,
     private authenticationService: AuthenticationService,
-    private fireauth: AngularFireAuth
-  ) {}
+    private fireauth: AngularFireAuth,
+    private themeService: ThemeService
+  ) {
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
+    this.isDarkMode = this.themeService.isDarkMode();
+  }
 
   logout() {
     this.authenticationService.logout();
@@ -43,9 +54,3 @@ export class UserProfileComponent {
     });
   }
 }
-// Complete task by default
-// Genertion of the code snippet is complete
-// Task: Add the following code snippet to the file src/app/components/user-profile/user-profile.component.html
-// Task: Add the following code snippet to the file src/app/components/user-profile/user-profile.component.css
-// Updating tasks is the ability to update the status of a task
-// Task: Add the following code snippet to the file src/app/components/user-profile/user-profile.component.html

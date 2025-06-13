@@ -14,7 +14,7 @@
 
 <ng-template #StartTemplate>
   <div class="start-container">
-    <img src="assets/svg/chat.svg" />
+    <img [src]="isDarkMode ? 'assets/svg/darkmode/chat_dark.svg' : 'assets/svg/lightmode/chat_light.svg'" />
     <p>Select a Chat to Start a Conversation</p>
   </div>
 </ng-template>

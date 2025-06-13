@@ -121,12 +121,65 @@ export class ChatsService {
         });
       } else {
         latestMessage$.next({
-          message: 'No messages yet',
+          message: '',
           timestamp: '',
         });
       }
     });
 
     return latestMessage$;
+  }
+
+  getInteractedUserUids(currentUid: string): Promise<Set<string>> {
+    const chatsRef = ref(this.db, 'chats/');
+    return new Promise((resolve) => {
+      onValue(
+        chatsRef,
+        (snapshot) => {
+          const interactedUids = new Set<string>();
+
+          snapshot.forEach((child) => {
+            const msg = child.val();
+            if (msg.sender === currentUid) interactedUids.add(msg.receiver);
+            if (msg.receiver === currentUid) interactedUids.add(msg.sender);
+          });
+
+          resolve(interactedUids);
+        },
+        { onlyOnce: true }
+      );
+    });
+  }
+
+  async getLastMessageTimestamp(uid1: string, uid2: string): Promise<string> {
+    const chatsRef = ref(this.db, 'chats/');
+
+    return new Promise((resolve) => {
+      onValue(
+        chatsRef,
+        (snapshot) => {
+          const allMessages: any[] = [];
+
+          snapshot.forEach((child) => {
+            const msg = child.val();
+            const isBetween =
+              (msg.sender === uid1 && msg.receiver === uid2) ||
+              (msg.sender === uid2 && msg.receiver === uid1);
+            if (isBetween) {
+              allMessages.push({ id: child.key, ...msg });
+            }
+          });
+
+          allMessages.sort(
+            (a, b) =>
+              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+          );
+
+          const latest = allMessages[allMessages.length - 1];
+          resolve(latest?.timestamp || '');
+        },
+        { onlyOnce: true }
+      );
+    });
   }
 }

@@ -7,10 +7,18 @@
     </div>
   </div>
   <div class="spacer"></div>
+  <!-- <label class="switch">
+    <input type="checkbox" [(ngModel)]="isDarkMode" (change)="toggleTheme()">
+    <span class="slider round"></span>
+  </label> -->
+  <button class="btn" [attr.aria-pressed]="isDarkMode" (click)="isDarkMode = !isDarkMode; toggleTheme()">
+    <img [src]="isDarkMode ? 'assets/svg/darkmode/toggle_dark.svg' : 'assets/svg/lightmode/toggle_light.svg'" />
+  </button>
   <button class="btn">
-    <img src="assets/svg/notification.svg" />
+    <img
+      [src]="isDarkMode ? 'assets/svg/darkmode/notification_dark.svg' : 'assets/svg/lightmode/notification_light.svg'" />
   </button>
   <button class="btn" (click)="logout()">
-    <img src="assets/svg/logout.svg" />
+    <img [src]="isDarkMode ? 'assets/svg/darkmode/logout_dark.svg' : 'assets/svg/lightmode/logout_light.svg'" />
   </button>
 </div>

@@ -2,12 +2,12 @@
   position: relative;
   /* Ensures z-index works */
   /* z-index: 10; */
-  background-color: rgb(255, 255, 255);
+  background-color: var(--bg-header);
   display: flex;
   align-items: center;
   z-index: 13;
   width: fit-content;
-  min-width: 300px;
+  min-width: 400px;
   column-gap: 24px;
   justify-content: left;
   flex-direction: row;
@@ -21,12 +21,13 @@
 .contact:hover {
   transform: translateX(5px);
   z-index: 14;
-  box-shadow: 0px 0px 24px rgba(53, 53, 53, 0.493);
+  box-shadow: var(--shadow);
 }
 
 
 .text {
   margin: 2px;
+  color: var(--text-color);
 }
 
 .contact-info {
@@ -78,6 +79,6 @@
   align-items: center;
 }
 
-.space{
+.space {
   flex-grow: 1;
 }

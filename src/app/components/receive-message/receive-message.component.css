@@ -11,7 +11,8 @@
   text-align: justify;
   padding: 30px 30px 30px 30px;
   margin: 20px 20px 10px 20px;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--msg--received);
+  color: var(--text-color);
   border-radius: 40px;
 }
 

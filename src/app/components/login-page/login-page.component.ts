@@ -13,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class LoginPageComponent {
   email: string = '';
   password: string = '';
+  showPassword: boolean = false;
 
   constructor(
     private authentication: AuthenticationService,
@@ -23,6 +24,9 @@ export class LoginPageComponent {
 
   ngOnInit(): void {}
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   login() {
     if (this.email == '') {
       alert('Please enter email');

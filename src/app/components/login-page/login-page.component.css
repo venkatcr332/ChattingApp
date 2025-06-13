@@ -1,28 +1,52 @@
-.cont {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  place-items: center;
-  justify-content: center;
+.bg-gradient {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
 }
 
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
+  color: white;
+}
 
-.form {
-  width: 300px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+.vibrant-btn {
+  background-color: rgb(38, 127, 236);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.vibrant-btn:hover {
+  background-color: #00a8cc;
+  transform: translateY(-2px);
+}
+
+.eye-btn {
+  border: none;
+  background-color: #ffffff;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  padding: 0 10px;
+}
+
+.eye-btn img {
+  cursor: pointer;
+}
+
+.eye-btn:active {
+  transform: none;
 }
 
 
-.link:hover {
-  cursor: default;
-  font-size: 18px;
+.register-link {
+  cursor: pointer;
+  color: #ffd700;
+}
+
+.register-link:hover {
+  color: #ffffff;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
 }
