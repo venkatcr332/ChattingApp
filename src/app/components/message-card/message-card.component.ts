@@ -6,6 +6,7 @@ import {
   Output,
   OnChanges,
   SimpleChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ChatsService } from '../../services/chats.service';
@@ -28,7 +29,8 @@ export class MessageCardComponent implements OnInit {
 
   constructor(
     private fireauth: AngularFireAuth,
-    private chatsService: ChatsService
+    private chatsService: ChatsService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   selectUser() {
@@ -49,7 +51,12 @@ export class MessageCardComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['user'] && this.user?.uid && this.currentUser) {
-      this.latestMessage = 'Load...';
+      console.log('MessageCard ngOnChanges user:', this.user);
+      if (this.user.hasActiveChat) {
+        this.latestMessage = 'Loading...';
+      } else {
+        this.latestMessage = 'No messages yet';
+      }
       this.latestTime = '';
       this.subscribeToLatestMessage();
     }
@@ -57,20 +64,35 @@ export class MessageCardComponent implements OnInit {
 
   subscribeToLatestMessage() {
     if (!this.currentUser || !this.user?.uid) return;
-
     if (this.latestMessageSub) {
       this.latestMessageSub.unsubscribe();
     }
-
+    if (!this.user.hasActiveChat) {
+      console.log('No active chat for user:', this.user);
+      // No subscription needed for users without active chat
+      return;
+    }
+    console.log(
+      'Subscribing to latest message for:',
+      this.currentUser,
+      this.user.uid
+    );
     const stream$ = this.chatsService.listenToLatestMessage(
       this.currentUser,
       this.user.uid
     );
     this.latestMessageSub = stream$.subscribe((data) => {
+      console.log(
+        'Latest message data received:',
+        data,
+        'for user:',
+        this.user
+      );
       this.latestMessage = data.message;
       if (data.timestamp !== '') {
         this.latestTime = this.formatTime(data.timestamp);
       }
+      this.cdRef.detectChanges(); // <-- force UI update
     });
   }
 

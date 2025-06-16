@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Database, ref, push, onValue } from '@angular/fire/database';
 import { BehaviorSubject } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -14,7 +14,11 @@ export class ChatsService {
   private messagesSubject = new BehaviorSubject<any[]>([]);
   messages$ = this.messagesSubject.asObservable();
 
-  constructor(private db: Database, private fireauth: AngularFireAuth) {
+  constructor(
+    private db: Database,
+    private fireauth: AngularFireAuth,
+    private ngZone: NgZone
+  ) {
     this.fireauth.authState.subscribe((user) => {
       if (user) {
         this.senderUid = user.uid;
@@ -56,28 +60,29 @@ export class ChatsService {
     const chatsRef = ref(this.db, 'chats/');
 
     onValue(chatsRef, (snapshot) => {
-      const allMessages: any[] = [];
+      this.ngZone.run(() => {
+        const allMessages: any[] = [];
+        snapshot.forEach((child) => {
+          const msg = child.val();
+          const msgSender = msg.sender?.trim?.();
+          const msgReceiver = msg.receiver?.trim?.();
 
-      snapshot.forEach((child) => {
-        const msg = child.val();
-        const msgSender = msg.sender?.trim?.();
-        const msgReceiver = msg.receiver?.trim?.();
+          const isSent = msgSender === senderUid && msgReceiver === receiverUid;
+          const isReceived =
+            msgSender === receiverUid && msgReceiver === senderUid;
 
-        const isSent = msgSender === senderUid && msgReceiver === receiverUid;
-        const isReceived =
-          msgSender === receiverUid && msgReceiver === senderUid;
+          if (isSent || isReceived) {
+            allMessages.push({ id: child.key, ...msg });
+          }
+        });
 
-        if (isSent || isReceived) {
-          allMessages.push({ id: child.key, ...msg });
-        }
+        const sortedMessages = allMessages.sort(
+          (a, b) =>
+            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+
+        this.messagesSubject.next(sortedMessages);
       });
-
-      const sortedMessages = allMessages.sort(
-        (a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      );
-
-      this.messagesSubject.next(sortedMessages);
     });
   }
 
@@ -96,35 +101,36 @@ export class ChatsService {
     const chatsRef = ref(this.db, 'chats/');
 
     onValue(chatsRef, (snapshot) => {
-      const allMessages: any[] = [];
+      this.ngZone.run(() => {
+        const allMessages: any[] = [];
+        snapshot.forEach((child) => {
+          const msg = child.val();
+          const isBetween =
+            (msg.sender === uid1 && msg.receiver === uid2) ||
+            (msg.sender === uid2 && msg.receiver === uid1);
+          if (isBetween) {
+            allMessages.push({ id: child.key, ...msg });
+          }
+        });
 
-      snapshot.forEach((child) => {
-        const msg = child.val();
-        const isBetween =
-          (msg.sender === uid1 && msg.receiver === uid2) ||
-          (msg.sender === uid2 && msg.receiver === uid1);
-        if (isBetween) {
-          allMessages.push({ id: child.key, ...msg });
+        allMessages.sort(
+          (a, b) =>
+            new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+
+        const latest = allMessages[allMessages.length - 1];
+        if (latest) {
+          latestMessage$.next({
+            message: latest.message,
+            timestamp: latest.timestamp,
+          });
+        } else {
+          latestMessage$.next({
+            message: '',
+            timestamp: '',
+          });
         }
       });
-
-      allMessages.sort(
-        (a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      );
-
-      const latest = allMessages[allMessages.length - 1];
-      if (latest) {
-        latestMessage$.next({
-          message: latest.message,
-          timestamp: latest.timestamp,
-        });
-      } else {
-        latestMessage$.next({
-          message: '',
-          timestamp: '',
-        });
-      }
     });
 
     return latestMessage$;
@@ -136,15 +142,17 @@ export class ChatsService {
       onValue(
         chatsRef,
         (snapshot) => {
-          const interactedUids = new Set<string>();
+          this.ngZone.run(() => {
+            const interactedUids = new Set<string>();
 
-          snapshot.forEach((child) => {
-            const msg = child.val();
-            if (msg.sender === currentUid) interactedUids.add(msg.receiver);
-            if (msg.receiver === currentUid) interactedUids.add(msg.sender);
+            snapshot.forEach((child) => {
+              const msg = child.val();
+              if (msg.sender === currentUid) interactedUids.add(msg.receiver);
+              if (msg.receiver === currentUid) interactedUids.add(msg.sender);
+            });
+
+            resolve(interactedUids);
           });
-
-          resolve(interactedUids);
         },
         { onlyOnce: true }
       );

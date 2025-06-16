@@ -9,6 +9,7 @@ interface User {
   name: string;
   photo: string;
   uid: string;
+  hasActiveChat?: boolean; // Optional property to indicate active chat status
 }
 
 @Component({
@@ -55,14 +56,34 @@ export class SideBarComponent implements OnInit {
         currentUser.uid
       );
 
-      this.interactedUsers = allUsers.filter(
-        (user) => interactedUids.has(user.uid) && user.uid !== currentUser.uid
-      );
-
+      const interactedUidSet = new Set(interactedUids);
+      this.users = allUsers
+        .filter((u) => u.uid !== currentUser.uid)
+        .map((user) => ({
+          ...user,
+          hasActiveChat: interactedUidSet.has(user.uid),
+        }));
+      this.interactedUsers = this.users.filter((user) => user.hasActiveChat);
       this.filteredUsers = [...this.interactedUsers];
     } catch (err) {
       console.error('Error initializing sidebar:', err);
     }
+
+    this.searchSubject.subscribe((term: string) => {
+      const trimmed = term.trim().toLowerCase();
+      if (trimmed.length === 0) {
+        this.filteredUsers = this.interactedUsers.map((user) => ({ ...user }));
+        console.log(
+          'Filtered users after clearing search:',
+          this.filteredUsers
+        );
+      } else {
+        this.filteredUsers = this.users
+          .filter((user) => user.name.toLowerCase().includes(trimmed))
+          .map((user) => ({ ...user }));
+        console.log('Filtered users after search:', this.filteredUsers);
+      }
+    });
   }
 
   onSearch(term: string) {
